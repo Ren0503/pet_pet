@@ -121,12 +121,8 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pet_shop',
-        'USER': 'postgres',
-        'PASSWORD': '116105101110',
-        'HOST': 'localhost',
-        'PORT': '5432'
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -175,6 +171,11 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'client/build/static'
 ]
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 if os.getcwd() == '/app':
     DEBUG = False
