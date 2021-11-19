@@ -26,14 +26,21 @@ export const getOrderDetails = (id: string): AppThunk => async (
 ) => {
     try {
         dispatch({ type: OrderDetailActionTypes.ORDER_DETAIL_REQUEST });
+
         const { userInfo } = getState().userLogin;
+
         const config = {
             headers: {
                 'Content-Type': 'Application/json',
                 Authorization: `Bearer ${userInfo?.token}`
             }
         };
-        const { data } = await axios.get<OrderDetail>(`/api/orders/${id}`, config);
+
+        const { data } = await axios.get<OrderDetail>(
+            `/api/orders/${id}/`, 
+            config
+        );
+        
         dispatch({
             type: OrderDetailActionTypes.ORDER_DETAIL_SUCCESS,
             payload: data
@@ -62,7 +69,7 @@ export const payOrder = (
             }
         };
 
-        await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config);
+        await axios.put(`/api/orders/${orderId}/pay/`, paymentResult, config);
 
         dispatch({
             type: OrderPayActionTypes.ORDER_PAY_SUCCESS
@@ -118,7 +125,7 @@ export const deliverOrder = (orderId: string): AppThunk => async (
             }
         };
 
-        await axios.put(`/api/orders/${orderId}/deliver`, {}, config);
+        await axios.put(`/api/orders/${orderId}/deliver/`, {}, config);
 
         dispatch({
             type: OrderDeliverActionTypes.ORDER_DELIVER_SUCCESS

@@ -26,7 +26,6 @@ interface UpdateProductInput {
 
 export const listProducts = (
     keyword: string = '',
-    pageNumber: string = ''
 ): AppThunk => async (dispatch) => {
     try {
         dispatch({ type: ProductListActionTypes.PRODUCT_LIST_REQUEST });
@@ -35,7 +34,7 @@ export const listProducts = (
             products: Product[];
             page: number;
             pages: number;
-        }>(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
+        }>(`/api/products${keyword}`);
 
         dispatch({
             type: ProductListActionTypes.PRODUCT_LIST_SUCCESS,
@@ -85,7 +84,7 @@ export const deleteProduct = (id: string): AppThunk => async (
             }
         };
         
-        await axios.delete(`/api/products/${id}`, config);
+        await axios.delete(`/api/products/delete/${id}/`, config);
         
         dispatch({
             type: ProductDeleteActionTypes.PRODUCT_DELETE_SUCCESS
@@ -112,7 +111,7 @@ export const createProduct = (): AppThunk => async (dispatch, getState) => {
             }
         };
         
-        const { data } = await axios.post<Product>(`/api/products/`, {}, config);
+        const { data } = await axios.post<Product>(`/api/products/create/`, {}, config);
         
         dispatch({
             type: ProductCreateActionTypes.PRODUCT_CREATE_SUCCESS,
@@ -143,7 +142,7 @@ export const updateProduct = (product: UpdateProductInput): AppThunk => async (
         };
 
         const { data } = await axios.put<Product>(
-            `/api/products/${product._id}`,
+            `/api/products/update/${product._id}`,
             product,
             config
         );
@@ -164,7 +163,7 @@ export const listTopProducts = (): AppThunk => async (dispatch) => {
 	try {
 		dispatch({ type: ProductTopActionTypes.PRODUCT_TOP_REQUEST });
 		
-        const { data } = await axios.get<Product[]>(`/api/products/top`);
+        const { data } = await axios.get<Product[]>(`/api/products/top/`);
 		
         dispatch({
 			type: ProductTopActionTypes.PRODUCT_TOP_SUCCESS,
