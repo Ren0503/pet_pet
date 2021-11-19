@@ -26,7 +26,7 @@ export interface FetchProductFailureAction {
     payload: any;
 }
 
-export type ProductDetailsAction =
+export type ProductDetailAction =
     | FetchProductSuccessAction
     | FetchProductFailureAction
     | FetchProductRequestAction;
